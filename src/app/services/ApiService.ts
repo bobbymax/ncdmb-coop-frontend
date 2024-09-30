@@ -27,7 +27,6 @@ export default class ApiService {
   constructor() {
     this.client = axios.create({
       baseURL: process.env.REACT_APP_BASE_URI,
-      withCredentials: true,
       headers: {
         "Content-Type": "application/json",
       },
