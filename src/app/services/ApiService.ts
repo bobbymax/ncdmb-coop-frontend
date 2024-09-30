@@ -28,6 +28,9 @@ export default class ApiService {
     this.client = axios.create({
       baseURL: process.env.REACT_APP_BASE_URI,
       withCredentials: true,
+      headers: {
+        "Content-Type": "application/json",
+      },
     });
 
     // Add a request interceptor
