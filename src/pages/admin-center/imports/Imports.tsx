@@ -12,7 +12,14 @@ import { toast } from "react-toastify";
 
 interface ImportData {
   file: string;
-  resource: "members" | "contributions" | "groups" | "expenditures" | "plans";
+  resource:
+    | "members"
+    | "contributions"
+    | "groups"
+    | "expenditures"
+    | "plans"
+    | "alter-members"
+    | "upload-modules";
 }
 
 const Imports = () => {
@@ -26,6 +33,21 @@ const Imports = () => {
   const [columns, setColumns] = useState<Header[]>([]);
   const [collection, setCollection] = useState<Record<string, any>[]>([]);
 
+  const getUrl = (resource: string): string => {
+    let uri;
+    switch (resource) {
+      case "members":
+        uri = "imports";
+        break;
+
+      default:
+        uri = resource;
+        break;
+    }
+
+    return uri;
+  };
+
   const importData = async () => {
     setLoading(true);
     const body = {
@@ -34,7 +56,7 @@ const Imports = () => {
     };
 
     try {
-      const response = await http.store("imports", body);
+      const response = await http.store(getUrl(state.resource), body);
 
       if (response) {
         toast.success(response.message);
@@ -52,10 +74,12 @@ const Imports = () => {
   const getResource = (): Option[] => {
     return [
       { value: "members", label: "Members" },
+      { value: "update-members-record", label: "Update Member Records" },
       { value: "contributions", label: "Contributions" },
       { value: "groups", label: "Groups" },
       { value: "expenditures", label: "Expenditures" },
       { value: "plans", label: "Plans" },
+      { value: "upload-modules", label: "Modules" },
     ];
   };
 
@@ -67,7 +91,9 @@ const Imports = () => {
         | "contributions"
         | "groups"
         | "expenditures"
-        | "plans",
+        | "plans"
+        | "alter-members"
+        | "upload-modules",
     });
   };
 
@@ -82,13 +108,21 @@ const Imports = () => {
       const result = await Upload.excel(files[0]);
 
       if (result) {
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        let heads;
+        let rows;
         const { headers, data } = result;
 
-        const json = formatMembersUploadFile(data);
+        if (state.resource === "members") {
+          const json = formatMembersUploadFile(data);
+          heads = json.data;
+          rows = json.data;
+        } else {
+          heads = headers;
+          rows = data;
+        }
 
-        setColumns(json.headers);
-        setCollection(json.data);
+        setColumns(heads as Header[]);
+        setCollection(rows);
       } else {
         console.error("No result returned from the upload");
       }

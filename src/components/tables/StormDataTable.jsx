@@ -6,6 +6,8 @@ import TextInput from "../forms/TextInput";
 import Button from "../forms/Button";
 import { checkButtonStatus } from "src/app/helpers/Helpers";
 import _ from "lodash";
+import Alert from "src/app/helpers/Alert";
+import { generateUniqueString } from "src/app/helpers/Helpers";
 
 const TableButton = ({ raw = null, bttn = {}, actions = undefined }) => {
   const [isDisabled, setIsDisabled] = useState(false);
@@ -52,6 +54,7 @@ const StormDataTable = ({
   columns = [],
   actions = undefined,
   buttons = [],
+  exportable = false,
 }) => {
   const [tableData, setTableData] = useState([]);
   const [page, setPage] = useState(1);
@@ -62,6 +65,16 @@ const StormDataTable = ({
 
   // Instantiate DataManager with initial data
   const dataManager = new TableDataManager(data, columns, pageSize);
+
+  const exportData = () => {
+    Alert.flash("Download Excel File", "info", "Perform this action").then(
+      (result) => {
+        if (result.isConfirmed) {
+          dataManager.export(data, generateUniqueString());
+        }
+      }
+    );
+  };
 
   const generateButtons = (bttns = [], raw) => {
     return (
@@ -94,13 +107,24 @@ const StormDataTable = ({
 
   return (
     <div className="storm-table-container">
-      <div className="search-container">
-        <TextInput
-          placeholder="Search"
-          value={searchTerm}
-          onChange={handleSearch}
-          size="md"
-        />
+      <div className="flex center-align space-between">
+        <div className="search-container" style={{ flexGrow: 1 }}>
+          <TextInput
+            placeholder="Search"
+            value={searchTerm}
+            onChange={handleSearch}
+            size="md"
+          />
+        </div>
+        <div className="button-section" style={{ marginBottom: 15 }}>
+          <Button
+            label="Export to Excel"
+            icon="download-outline"
+            variant="success"
+            handleClick={() => exportData()}
+            isDisabled={data?.length < 1}
+          />
+        </div>
       </div>
       <table className="storm-data-table">
         <thead>

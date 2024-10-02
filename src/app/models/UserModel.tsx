@@ -72,6 +72,7 @@ export default class UserModel extends Model {
     { label: "Firstname", accessor: "firstname" },
     { label: "Surname", accessor: "surname" },
     { label: "Membership ID", accessor: "membership_no" },
+    { label: "Email", accessor: "email" },
     { label: "Contribution", accessor: "fee" },
   ];
 

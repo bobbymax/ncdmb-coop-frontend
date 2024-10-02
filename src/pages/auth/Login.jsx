@@ -1,7 +1,8 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+// import { Link, useNavigate } from "react-router-dom";
 import TextInput from "../../components/forms/TextInput";
-import Button from "src/components/forms/Button";
+import Button from "../../components/forms/Button";
 import AuthService from "src/app/services/AuthService";
 import { toast } from "react-toastify";
 import { useStateContext } from "src/app/providers/ContentProvider";
@@ -10,6 +11,7 @@ const Login = () => {
   const { setIsAuthenticated, setAuth, setToken } = useStateContext();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
 
   const navigate = useNavigate();
 
@@ -23,14 +25,20 @@ const Login = () => {
 
     const user = new AuthService();
 
-    const response = await user.login(body);
-    if (response.status === 200) {
-      setIsAuthenticated(true);
-      setAuth(response.data?.data?.user);
-      setToken(response.data?.data?.token);
-      navigate("/dashboard");
-    } else {
-      toast.error("Invalid credentials");
+    try {
+      setError("");
+      const response = await user.login(body);
+      if (response.status === 200) {
+        setIsAuthenticated(true);
+        setAuth(response.data?.data?.user);
+        setToken(response.data?.data?.token);
+        navigate("/dashboard");
+      } else {
+        toast.error("Invalid credentials");
+      }
+    } catch (error) {
+      console.log(error.message);
+      setError(`Server Response: ${error?.message}`);
     }
   };
 
@@ -45,12 +53,26 @@ const Login = () => {
         <div className="storm-card" style={{ borderRadius: 8, width: "35%" }}>
           <div className="storm-header">
             <p className="form-title">Login</p>
-            <span>
+            {/* <span>
               Do not have an account?{" "}
               <Link to="/member/register" className="hotlink">
                 Register
               </Link>
-            </span>
+            </span> */}
+            {error && (
+              <p
+                style={{
+                  textAlign: "center",
+                  margin: "12px 0",
+                  backgroundColor: "#f0f0f0",
+                  padding: "6px 0",
+                  borderRadius: 4,
+                }}
+                className="text-danger"
+              >
+                {error}
+              </p>
+            )}
           </div>
 
           <form onSubmit={authenticate}>
@@ -81,17 +103,18 @@ const Login = () => {
                   type="submit"
                   size="nm"
                   icon="log-in"
+                  isDisabled={username === "" || password === ""}
                 />
               </div>
 
-              <div className="col-md-12">
+              {/* <div className="col-md-12">
                 <p>
                   Do not remember your password?{" "}
                   <Link to="/password/reset" className="hotlink">
                     Forgot Password
                   </Link>
                 </p>
-              </div>
+              </div> */}
             </div>
           </form>
         </div>

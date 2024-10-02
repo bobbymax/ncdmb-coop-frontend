@@ -1,3 +1,5 @@
+import Upload from "src/app/contracts/files/Upload";
+
 export default class TableDataManager {
   constructor(data, columns, pageSize) {
     this.data = data;
@@ -40,5 +42,9 @@ export default class TableDataManager {
     const startIndex = (page - 1) * this.pageSize;
     const endIndex = startIndex + this.pageSize;
     return data.slice(startIndex, endIndex);
+  }
+
+  export(data, name) {
+    return Upload.export(data, name);
   }
 }

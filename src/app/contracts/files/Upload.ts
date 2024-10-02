@@ -65,6 +65,15 @@ export default class Upload {
     });
   }
 
+  public static export(data: Record<string, any>[], file: string) {
+    const worksheet = XLSX.utils.json_to_sheet(data);
+
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Sheet1");
+
+    XLSX.writeFile(workbook, `${file}.xlsx`);
+  }
+
   protected static toJson(
     headers: string[],
     data: any[][]

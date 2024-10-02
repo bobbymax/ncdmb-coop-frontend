@@ -35,7 +35,7 @@ const Dashboard = () => {
                       ></ion-icon>
                       <div className="flex column">
                         <h2>{formatCurrency(0)}</h2>
-                        <p>2 Current running loans</p>
+                        <p>Total Loan Sum</p>
                       </div>
                     </div>
 
