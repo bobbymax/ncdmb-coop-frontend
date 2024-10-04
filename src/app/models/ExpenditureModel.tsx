@@ -29,7 +29,7 @@ export interface ExpenditureData extends ResourceProps {
 
 export default class ExpenditureModel extends Model {
   protected json!: ExpenditureData;
-  protected path: string = "/accounting/expenditures";
+  public path: string = "/accounting/expenditures";
 
   protected fillable: Array<keyof ExpenditureData> = [
     "amount",

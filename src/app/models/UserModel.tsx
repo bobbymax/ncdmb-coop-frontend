@@ -44,7 +44,7 @@ export interface UserData extends ResourceProps {
 
 export default class UserModel extends Model {
   protected json!: UserData;
-  protected path: string = "/secretariat/members";
+  public path: string = "/secretariat/members";
 
   protected fillable: Array<keyof UserData> = [
     "firstname",

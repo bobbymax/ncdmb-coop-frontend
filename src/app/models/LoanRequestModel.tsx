@@ -12,7 +12,7 @@ export interface LoanRequestData extends LoanData {
 
 export default class LoanRequestModel extends Model {
   protected json!: LoanData;
-  protected path: string = "/secretariat/loans";
+  public path: string = "/secretariat/loans";
 
   protected fillable: Array<keyof LoanRequestData> = [
     "loan_type_id",

@@ -4,7 +4,7 @@ import { ModuleData, ModuleTypeProps } from "./ModuleModel";
 
 export default class NavigationModel extends Model {
   protected json!: ModuleData;
-  protected path: string = "/administration/navigation";
+  public path: string = "/administration/navigation";
 
   protected fillable: Array<keyof ModuleData> = [
     "name",

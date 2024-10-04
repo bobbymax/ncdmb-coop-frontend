@@ -29,7 +29,7 @@ export interface LoanData extends ResourceProps {
 
 export default class LoanModel extends Model {
   protected json!: LoanData;
-  protected path: string = "/requests/loan-requests";
+  public path: string = "/requests/loan-requests";
 
   protected fillable: Array<keyof LoanData> = [
     "loan_type_id",

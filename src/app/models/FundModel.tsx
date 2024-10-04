@@ -17,7 +17,7 @@ export interface FundData extends ResourceProps {
 
 export default class FundModel extends Model {
   protected json!: FundData;
-  protected path: string = "/accounting/funds";
+  public path: string = "/accounting/funds";
 
   protected fillable: Array<keyof FundData> = [
     "activity_id",

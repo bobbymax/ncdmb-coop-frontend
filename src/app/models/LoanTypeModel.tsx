@@ -17,7 +17,7 @@ export interface LoanTypeData extends ResourceProps {
 
 export default class LoanTypeModel extends Model {
   protected json!: LoanTypeData;
-  protected path: string = "/secretariat/loan-types";
+  public path: string = "/secretariat/loan-types";
 
   protected fillable: Array<keyof LoanTypeData> = [
     "activity_id",

@@ -7,7 +7,7 @@ export interface AccountTypeData extends ResourceProps {
 
 export default class AccountTypeModel extends Model {
   protected json!: AccountTypeData;
-  protected path: string = "/secretariat/account-types";
+  public path: string = "/secretariat/account-types";
 
   protected fillable: Array<keyof AccountTypeData> = ["name"];
 

@@ -14,7 +14,7 @@ export interface GuarantorData extends ResourceProps {
 
 export default class GuarantorModel extends Model {
   protected json!: GuarantorData;
-  protected path: string = "/requests/commitments";
+  public path: string = "/requests/commitments";
 
   protected fillable: Array<keyof GuarantorData> = [
     "loan_id",

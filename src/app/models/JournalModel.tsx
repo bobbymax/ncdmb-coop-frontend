@@ -24,7 +24,7 @@ export interface JournalData extends ResourceProps {
 
 export default class JournalModel extends Model {
   protected json!: JournalData;
-  protected path: string = "/book-keeping/journals";
+  public path: string = "/book-keeping/journals";
 
   protected fillable: Array<keyof JournalData> = ["title", "description"];
 

@@ -17,7 +17,7 @@ interface ActivityTypeProps {
 
 export default class ActivityModel extends Model {
   protected json!: ActivityData;
-  protected path: string = "/accounting/activities";
+  public path: string = "/accounting/activities";
 
   protected fillable: Array<keyof ActivityData> = [
     "code",

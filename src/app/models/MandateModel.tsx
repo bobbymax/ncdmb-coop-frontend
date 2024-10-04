@@ -17,7 +17,7 @@ export interface MandateData extends ResourceProps {
 
 export default class MandateModel extends Model {
   protected json!: MandateData;
-  protected path: string = "/accounting/mandates";
+  public path: string = "/accounting/mandates";
 
   protected fillable: Array<keyof MandateData> = [
     "fund_id",

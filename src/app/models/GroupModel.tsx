@@ -8,7 +8,7 @@ export interface GroupData extends ResourceProps {
 
 export default class GroupModel extends Model {
   protected json!: GroupData;
-  protected path: string = "/admin-center/groups";
+  public path: string = "/admin-center/groups";
 
   protected fillable: Array<keyof GroupData> = ["name", "max_slots"];
 

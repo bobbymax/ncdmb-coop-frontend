@@ -20,7 +20,7 @@ export interface ModuleTypeProps {
 
 export default class ModuleModel extends Model {
   protected json!: ModuleData;
-  protected path: string = "/admin-center/modules";
+  public path: string = "/admin-center/modules";
 
   protected fillable: Array<keyof ModuleData> = [
     "name",

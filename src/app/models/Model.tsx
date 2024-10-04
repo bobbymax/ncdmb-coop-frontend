@@ -45,7 +45,7 @@ export interface AssociatesProps {
 
 export default abstract class Model {
   private static instances: Map<string, Model> = new Map();
-  protected path: string = "";
+  public path: string = "";
 
   // Static method to get or create an instance of the child class
   public static init<T extends Model>(this: new () => T): T {

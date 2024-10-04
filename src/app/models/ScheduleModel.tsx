@@ -15,7 +15,7 @@ export interface ScheduleData extends ResourceProps {
 
 export default class ScheduleModel extends Model {
   protected json!: ScheduleData;
-  protected path: string = "/secretariat/schedules";
+  public path: string = "/secretariat/schedules";
 
   protected fillable: Array<keyof ScheduleData> = [
     "loan_id",

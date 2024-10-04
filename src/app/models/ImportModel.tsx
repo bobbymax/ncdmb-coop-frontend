@@ -7,7 +7,7 @@ export interface ImportData extends ResourceProps {
 
 export default class ImportModel extends Model {
   protected json!: ImportData;
-  protected path: string = "/admin-center/imports";
+  public path: string = "/admin-center/imports";
 
   protected fillable: Array<keyof ImportData> = ["file", "resource"];
 

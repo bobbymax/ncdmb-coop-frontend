@@ -10,7 +10,7 @@ export interface AccountData extends ResourceProps {
 
 export default class AccountModel extends Model {
   protected json!: AccountData;
-  protected path: string = "/user/profile";
+  public path: string = "/user/profile";
 
   protected fillable: Array<keyof AccountData> = [
     "account_number",

@@ -11,7 +11,7 @@ export interface ChartOfAccountData extends ResourceProps {
 
 export default class ChartOfAccountModel extends Model {
   protected json!: ChartOfAccountData;
-  protected path: string = "/secretariat/chart-of-accounts";
+  public path: string = "/secretariat/chart-of-accounts";
 
   protected fillable: Array<keyof ChartOfAccountData> = [
     "account_type_id",

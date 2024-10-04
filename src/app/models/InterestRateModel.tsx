@@ -12,7 +12,7 @@ export interface InterestRateData extends ResourceProps {
 
 export default class InterestRateModel extends Model {
   protected json!: InterestRateData;
-  protected path: string = "/secretariat/interest-rates";
+  public path: string = "/secretariat/interest-rates";
 
   protected fillable: Array<keyof InterestRateData> = [
     "loan_type_id",

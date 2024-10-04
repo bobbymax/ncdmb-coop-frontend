@@ -6,7 +6,7 @@ export interface PlanData extends ResourceProps {
 
 export default class PlanModel extends Model {
   protected json!: PlanData;
-  protected path = "/accounting/plans";
+  public path = "/accounting/plans";
 
   protected fillable: Array<keyof PlanData> = ["name"];
 
