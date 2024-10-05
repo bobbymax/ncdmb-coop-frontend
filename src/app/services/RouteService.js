@@ -1,5 +1,5 @@
 import { Route, Routes } from "react-router-dom";
-import routes from "../routes/api";
+import routes from "../routes/config";
 import Protected from "../guards/Protected";
 import { Suspense } from "react";
 import AuthMiddleware from "../middlewares/AuthMiddleware";

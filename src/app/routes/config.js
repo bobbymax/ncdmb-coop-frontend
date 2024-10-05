@@ -92,27 +92,27 @@ const routes = [
     requiresAuth: false,
   },
   {
-    path: GroupModel.init().path,
+    path: "/admin-center/groups",
     component: Groups,
     requiresAuth: true,
   },
   {
-    path: ModuleModel.init().path,
+    path: "/admin-center/modules",
     component: Modules,
     requiresAuth: true,
   },
   {
-    path: UserModel.init().path,
+    path: "/secretariat/members",
     component: Members,
     requiresAuth: true,
   },
   {
-    path: PlanModel.init().path,
+    path: "/accounting/plans",
     component: Plans,
     requiresAuth: true,
   },
   {
-    path: ActivityModel.init().path,
+    path: "/accounting/activities",
     component: Activities,
     requiresAuth: true,
   },
