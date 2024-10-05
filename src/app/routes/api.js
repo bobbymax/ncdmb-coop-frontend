@@ -1,4 +1,3 @@
-import { lazy } from "react";
 import GroupModel from "../models/GroupModel";
 import ModuleModel from "../models/ModuleModel";
 import UserModel from "../models/UserModel";
@@ -16,64 +15,31 @@ import AccountTypeModel from "../models/AccountTypeModel";
 import ChartOfAccountModel from "../models/ChartOfAccountModel";
 import JournalModel from "../models/JournalModel";
 import JournalEntryModel from "../models/JournalEntryModel";
-
-const Dashboard = lazy(() => import("../../pages/Dashboard"));
-const Login = lazy(() => import("../../pages/auth/Login"));
-const Register = lazy(() => import("../../pages/auth/Register"));
-const Groups = lazy(() => import("../../pages/groups/Groups"));
-const Modules = lazy(() => import("../../pages/modules/Modules"));
-const Members = lazy(() => import("../../pages/members/Members"));
-
-const Plans = lazy(() => import("../../pages/accounting/plans/Plans"));
-const Activities = lazy(() =>
-  import("../../pages/accounting/activities/Activities")
-);
-const Funds = lazy(() => import("../../pages/accounting/funding/Funds"));
-const LoanType = lazy(() =>
-  import("../../pages/secretariat/loan-types/LoanTypes")
-);
-const InterestRates = lazy(() =>
-  import("../../pages/secretariat/interest-rates/InterestRates")
-);
-const Loans = lazy(() => import("../../pages/secretariat/loans/Loans"));
-const ReadLoan = lazy(() => import("../../pages/secretariat/loans/ReadLoan"));
-const Guarantors = lazy(() =>
-  import("../../pages/requests/commitments/Guarantors")
-);
-const LoanRequests = lazy(() =>
-  import("../../pages/secretariat/loans/LoanRequests")
-);
-
-const Expenditures = lazy(() =>
-  import("../../pages/accounting/expenditures/Expenditures")
-);
-
-const Mandates = lazy(() => import("../../pages/accounting/mandates/Mandates"));
-const BatchExpenditures = lazy(() =>
-  import("../../pages/accounting/mandates/BatchExpenditures")
-);
-
-const AccountTypes = lazy(() =>
-  import("../../pages/secretariat/account-types/AccountTypes")
-);
-
-const ChartOfAccounts = lazy(() =>
-  import("../../pages/secretariat/chart-of-accounts/ChartOfAccounts")
-);
-
-const Journals = lazy(() =>
-  import("../../pages/book-keeping/journals/Journals")
-);
-const PostJournal = lazy(() =>
-  import("../../pages/book-keeping/journals/PostJournal")
-);
-
-const JournalEntries = lazy(() =>
-  import("../../pages/book-keeping/journal-entries/JournalEntries")
-);
-
-const Profile = lazy(() => import("../../pages/members/Profile"));
-const Imports = lazy(() => import("../../pages/admin-center/imports/Imports"));
+import Dashboard from "src/pages/Dashboard";
+import Login from "src/pages/auth/Login";
+import Register from "src/pages/auth/Register";
+import Groups from "src/pages/groups/Groups";
+import Modules from "src/pages/modules/Modules";
+import Members from "src/pages/members/Members";
+import Plans from "src/pages/accounting/plans/Plans";
+import Activities from "src/pages/accounting/activities/Activities";
+import Funds from "src/pages/accounting/funding/Funds";
+import LoanTypes from "src/pages/secretariat/loan-types/LoanTypes";
+import InterestRates from "src/pages/secretariat/interest-rates/InterestRates";
+import Loans from "src/pages/secretariat/loans/Loans";
+import ReadLoan from "src/pages/secretariat/loans/ReadLoan";
+import Guarantors from "src/pages/requests/commitments/Guarantors";
+import LoanRequests from "src/pages/secretariat/loans/LoanRequests";
+import Expenditures from "src/pages/accounting/expenditures/Expenditures";
+import Mandates from "src/pages/accounting/mandates/Mandates";
+import BatchExpenditures from "src/pages/accounting/mandates/BatchExpenditures";
+import AccountTypes from "src/pages/secretariat/account-types/AccountTypes";
+import ChartOfAccounts from "src/pages/secretariat/chart-of-accounts/ChartOfAccounts";
+import Journals from "src/pages/book-keeping/journals/Journals";
+import PostJournal from "src/pages/book-keeping/journals/PostJournal";
+import JournalEntries from "src/pages/book-keeping/journal-entries/JournalEntries";
+import Profile from "src/pages/members/Profile";
+import Imports from "src/pages/admin-center/imports/Imports";
 
 const routes = [
   {
@@ -123,7 +89,7 @@ const routes = [
   },
   {
     path: LoanTypeModel.init().path,
-    component: LoanType,
+    component: LoanTypes,
     requiresAuth: true,
   },
   {
