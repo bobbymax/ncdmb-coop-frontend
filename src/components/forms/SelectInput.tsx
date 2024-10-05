@@ -17,14 +17,16 @@ interface SelectInputProps {
 
 const SelectInput: React.FC<SelectInputProps> = ({
   label,
-  options,
+  options = [],
   value,
   onChange,
   name,
   placeholder,
 }) => {
   const [selected, setSelected] = useState<Option | undefined>(
-    options.find((option) => option.value === value)
+    options && Array.isArray(options)
+      ? options.find((option) => option.value === value)
+      : undefined
   );
   const [isToggled, setIsToggled] = useState<boolean>(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -46,6 +48,7 @@ const SelectInput: React.FC<SelectInputProps> = ({
   }, []);
 
   const handleSelect = (arg: string | number) => {
+    if (!options || !Array.isArray(options)) return; // Safeguard for undefined or non-array options
     const selectedOption = options.find((option) => option.value === arg);
     setSelected(selectedOption);
     setIsToggled(false);
@@ -55,8 +58,10 @@ const SelectInput: React.FC<SelectInputProps> = ({
   };
 
   useEffect(() => {
-    handleSelect(value);
-  }, [value]);
+    if (options && Array.isArray(options)) {
+      handleSelect(value);
+    }
+  }, [value, options]);
 
   return (
     <div className="storm-form-group">

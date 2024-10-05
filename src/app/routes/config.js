@@ -1,21 +1,4 @@
 import { lazy } from "react";
-import GroupModel from "../models/GroupModel";
-import ModuleModel from "../models/ModuleModel";
-import UserModel from "../models/UserModel";
-import PlanModel from "../models/PlanModel";
-import ActivityModel from "../models/ActivityModel";
-import FundModel from "../models/FundModel";
-import LoanTypeModel from "../models/LoanTypeModel";
-import InterestRateModel from "../models/InterestRateModel";
-import LoanModel from "../models/LoanModel";
-import GuarantorModel from "../models/GuarantorModel";
-import LoanRequestModel from "../models/LoanRequestModel";
-import ExpenditureModel from "../models/ExpenditureModel";
-import MandateModel from "../models/MandateModel";
-import AccountTypeModel from "../models/AccountTypeModel";
-import ChartOfAccountModel from "../models/ChartOfAccountModel";
-import JournalModel from "../models/JournalModel";
-import JournalEntryModel from "../models/JournalEntryModel";
 
 const Dashboard = lazy(() => import("../../pages/Dashboard"));
 const Login = lazy(() => import("../../pages/auth/Login"));
@@ -117,82 +100,82 @@ const routes = [
     requiresAuth: true,
   },
   {
-    path: FundModel.init().path,
+    path: "/accounting/funds",
     component: Funds,
     requiresAuth: true,
   },
   {
-    path: LoanTypeModel.init().path,
+    path: "/secretariat/loan-types",
     component: LoanType,
     requiresAuth: true,
   },
   {
-    path: InterestRateModel.init().path,
+    path: "/secretariat/interest-rates",
     component: InterestRates,
     requiresAuth: true,
   },
   {
-    path: LoanModel.init().path,
+    path: "/requests/loan-requests",
     component: Loans,
     requiresAuth: true,
   },
   {
-    path: `${LoanModel.init().path}/:id/view`,
+    path: "/requests/loan-requests/:id/view",
     component: ReadLoan,
     requiresAuth: true,
   },
   {
-    path: GuarantorModel.init().path,
+    path: "/requests/commitments",
     component: Guarantors,
     requiresAuth: true,
   },
   {
-    path: LoanRequestModel.init().path,
+    path: "/secretariat/loans",
     component: LoanRequests,
     requiresAuth: true,
   },
   {
-    path: `${LoanRequestModel.init().path}/:id/schedule`,
+    path: "/secretariat/loans/:id/schedule",
     component: ReadLoan,
     requiresAuth: true,
   },
   {
-    path: ExpenditureModel.init().path,
+    path: "/accounting/expenditures",
     component: Expenditures,
     requiresAuth: true,
   },
   {
-    path: MandateModel.init().path,
+    path: "/accounting/mandates",
     component: Mandates,
     requiresAuth: true,
   },
   {
-    path: `${MandateModel.init().path}/batch`,
+    path: "/accounting/mandates/batch",
     component: BatchExpenditures,
     requiresAuth: true,
   },
   {
-    path: AccountTypeModel.init().path,
+    path: "/secretariat/account-types",
     component: AccountTypes,
     requiresAuth: true,
   },
   {
-    path: ChartOfAccountModel.init().path,
+    path: "/secretariat/chart-of-accounts",
     component: ChartOfAccounts,
     requiresAuth: true,
   },
   {
-    path: JournalModel.init().path,
+    path: "/book-keeping/journals",
     component: Journals,
     requiresAuth: true,
   },
   {
-    path: `${JournalModel.init().path}/:id/post`,
+    path: "/book-keeping/journals/:id/post",
     component: PostJournal,
     requiresAuth: true,
   },
   {
-    path: JournalEntryModel.init().path,
+    path: "/book-keeping/journal-entries",
     component: JournalEntries,
     requiresAuth: true,
   },
