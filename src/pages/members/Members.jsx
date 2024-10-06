@@ -33,6 +33,8 @@ const Members = () => {
     fetchDependencies();
   }, []);
 
+  console.log(groups);
+
   return (
     <>
       <ManageMember

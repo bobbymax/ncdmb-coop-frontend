@@ -90,6 +90,7 @@ const SelectInput: React.FC<SelectInputProps> = ({
           style={{ display: "none" }}
           value={selected?.value}
           onChange={(e) => handleSelect(e.target.value)}
+          id={name}
         >
           {options.map((option) => (
             <option key={option.value} value={option.value}>
