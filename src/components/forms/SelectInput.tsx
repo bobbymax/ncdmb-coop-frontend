@@ -58,10 +58,8 @@ const SelectInput: React.FC<SelectInputProps> = ({
   };
 
   useEffect(() => {
-    if (options && Array.isArray(options)) {
-      handleSelect(value);
-    }
-  }, [value, options]);
+    handleSelect(value);
+  }, [value]);
 
   return (
     <div className="storm-form-group">

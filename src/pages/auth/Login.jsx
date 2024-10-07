@@ -7,16 +7,21 @@ import AuthService from "src/app/services/AuthService";
 import { toast } from "react-toastify";
 import { useStateContext } from "src/app/providers/ContentProvider";
 
+import logo from "../../assets/images/logos/logo-main.png";
+
 const Login = () => {
   const { setIsAuthenticated, setAuth, setToken } = useStateContext();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const navigate = useNavigate();
 
   const authenticate = async (e) => {
     e.preventDefault();
+
+    setIsLoading(true);
 
     const body = {
       username,
@@ -39,6 +44,8 @@ const Login = () => {
     } catch (error) {
       console.log(error.message);
       setError(`Server Response: ${error?.message}`);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -52,7 +59,17 @@ const Login = () => {
       >
         <div className="storm-card" style={{ borderRadius: 8, width: "35%" }}>
           <div className="storm-header">
-            <p className="form-title">Login</p>
+            <div className="flex column center-align gap-sm">
+              <img
+                style={{ width: 75, height: 75, flexGrow: 1 }}
+                src={logo}
+                alt="Cooperative brand logo"
+                className="logo"
+              />
+              <h4>Multipurpose Cooperative Society</h4>
+              <span>- Welcome -</span>
+            </div>
+            {/* <p className="form-title">Login</p> */}
             {/* <span>
               Do not have an account?{" "}
               <Link to="/member/register" className="hotlink">
@@ -103,7 +120,7 @@ const Login = () => {
                   type="submit"
                   size="nm"
                   icon="log-in"
-                  isDisabled={username === "" || password === ""}
+                  isDisabled={username === "" || password === "" || isLoading}
                 />
               </div>
 

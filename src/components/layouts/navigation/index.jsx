@@ -13,7 +13,14 @@ export const NavBrand = ({ logo = null, name = "" }) => {
   return (
     <Link to="/dashboard" className="navbar-brand">
       <div className="flex center-align gap-sm">
-        {logo !== null && <img src={logo} alt={name} className="logo" />}
+        {logo !== null && (
+          <img
+            style={{ width: 43, height: 43 }}
+            src={logo}
+            alt={name}
+            className="logo"
+          />
+        )}
         <span>{name}</span>
       </div>
     </Link>

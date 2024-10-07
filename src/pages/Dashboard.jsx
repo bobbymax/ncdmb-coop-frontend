@@ -34,8 +34,8 @@ const Dashboard = () => {
                         name="gift-outline"
                       ></ion-icon>
                       <div className="flex column">
-                        <h2>{formatCurrency(0)}</h2>
-                        <p>Total Loan Sum</p>
+                        <h2>{formatCurrency(auth?.total_exposure)}</h2>
+                        <p>Total Exposure</p>
                       </div>
                     </div>
 

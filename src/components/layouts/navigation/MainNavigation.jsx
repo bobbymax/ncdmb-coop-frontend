@@ -2,6 +2,8 @@ import { Menu, NavBrand, Navigation, Profile, ToggleMenu } from ".";
 import Button from "../../forms/Button";
 // import { useNavigate } from "react-router-dom";
 
+import logo from "../../../assets/images/logos/logo-main.png";
+
 const MainNavigation = ({
   name = "",
   loggedInUserName = "",
@@ -18,7 +20,7 @@ const MainNavigation = ({
   return (
     <Navigation>
       {/* Brand Section */}
-      <NavBrand name={name} />
+      <NavBrand name={name} logo={logo} />
       {/* End Brand Section */}
       {/* Toggle Button */}
       <ToggleMenu />
