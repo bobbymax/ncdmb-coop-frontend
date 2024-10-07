@@ -20,8 +20,6 @@ const Plans = () => {
     buttons,
   } = useEntityManager(PlanController, PlanModel);
 
-  console.log(collection);
-
   return (
     <>
       <ManagePlan
