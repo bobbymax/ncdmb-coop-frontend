@@ -2,7 +2,6 @@
 // import BarChart from "../components/charts/BarChart";
 import TransactionPill from "../components/pages/TransactionPill";
 import { useStateContext } from "src/app/providers/ContentProvider";
-import { formatCurrency } from "src/app/helpers/Helpers";
 import useCollection from "src/app/hooks/useCollection";
 import DashboardController from "src/app/controllers/DashboardController";
 import { useMemo } from "react";
@@ -34,7 +33,7 @@ const Dashboard = () => {
                         name="gift-outline"
                       ></ion-icon>
                       <div className="flex column">
-                        <h2>{formatCurrency(auth?.total_exposure ?? 0)}</h2>
+                        <h2>{currency(auth?.total_exposure ?? 0)}</h2>
                         <p>Total Exposure</p>
                       </div>
                     </div>
@@ -45,7 +44,7 @@ const Dashboard = () => {
                         name="wallet-outline"
                       ></ion-icon>
                       <div className="flex column">
-                        <h2>{formatCurrency(auth?.total_contribution)}</h2>
+                        <h2>{currency(auth?.total_contribution)}</h2>
                         <p>Available Balance as of August 2024</p>
                       </div>
                     </div>
@@ -56,7 +55,7 @@ const Dashboard = () => {
                         name="briefcase-outline"
                       ></ion-icon>
                       <div className="flex column">
-                        <h2>{formatCurrency(auth?.wallet?.contribution)}</h2>
+                        <h2>{currency(auth?.wallet?.contribution)}</h2>
                         <p>Current Contribution as of August 2024</p>
                       </div>
                     </div>
@@ -67,7 +66,7 @@ const Dashboard = () => {
                         name="receipt-outline"
                       ></ion-icon>
                       <div className="flex column">
-                        <h2>{formatCurrency(0)}</h2>
+                        <h2>{currency(0)}</h2>
                         <p>Cooperative Purchase</p>
                       </div>
                     </div>

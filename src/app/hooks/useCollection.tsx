@@ -28,8 +28,6 @@ const useCollection = (serviceInstance: ServiceClassInstance) => {
           serviceInstance.url
         );
 
-        console.log(record);
-
         setCollection(record);
         setError(null); // Reset any previous errors
       } catch (err: unknown) {
