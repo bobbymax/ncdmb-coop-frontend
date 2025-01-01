@@ -1,27 +1,25 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo, useCallback } from "react";
 import TableDataManager from "./TableDataManager";
 import Pagination from "./Pagination";
 import TextInput from "../forms/TextInput";
 import Button from "../forms/Button";
-import { checkButtonStatus } from "src/app/helpers/Helpers";
-import _ from "lodash";
+import {
+  checkButtonStatus,
+  generateUniqueString,
+} from "src/app/helpers/Helpers";
 import Alert from "src/app/helpers/Alert";
-import { generateUniqueString } from "src/app/helpers/Helpers";
+import _ from "lodash";
 
 const TableButton = ({ raw = null, bttn = {}, actions = undefined }) => {
   const [isDisabled, setIsDisabled] = useState(false);
-  const [btn, setBtn] = useState({});
 
-  const checkStatus = (raw) => {
-    let isDisabled = false;
-
-    if (btn?.conditions?.length > 0) {
-      isDisabled = checkButtonStatus(raw, btn?.conditions, btn?.terms);
+  const checkStatus = useCallback(() => {
+    if (bttn?.conditions?.length > 0) {
+      const disabled = checkButtonStatus(raw, bttn.conditions, bttn.terms);
+      setIsDisabled(disabled);
     }
-
-    setIsDisabled(isDisabled);
-  };
+  }, [raw, bttn]);
 
   useEffect(() => {
     if (
@@ -31,22 +29,29 @@ const TableButton = ({ raw = null, bttn = {}, actions = undefined }) => {
       _.has(bttn, "terms") &&
       _.has(bttn, "action")
     ) {
-      setBtn(bttn);
-      checkStatus(raw);
+      checkStatus();
     }
-  }, [raw, bttn]);
+  }, [raw, bttn, checkStatus]);
 
   return (
     <Button
       label={bttn?.label}
       icon={bttn?.icon}
-      handleClick={() => actions(raw, bttn?.action)}
+      handleClick={() =>
+        typeof actions === "function" && actions(raw, bttn?.action)
+      }
       isDisabled={isDisabled}
       variant={bttn?.variant}
       size="sm"
       fullWidth
     />
   );
+};
+
+TableButton.defaultProps = {
+  raw: null,
+  bttn: {},
+  actions: undefined,
 };
 
 const StormDataTable = ({
@@ -58,15 +63,16 @@ const StormDataTable = ({
 }) => {
   const [tableData, setTableData] = useState([]);
   const [page, setPage] = useState(1);
-  // eslint-disable-next-line no-unused-vars
   const [pageSize, setPageSize] = useState(10);
   const [filters, setFilters] = useState({});
   const [searchTerm, setSearchTerm] = useState("");
 
-  // Instantiate DataManager with initial data
-  const dataManager = new TableDataManager(data, columns, pageSize);
+  const dataManager = useMemo(
+    () => new TableDataManager(data, columns, pageSize),
+    [data, columns, pageSize]
+  );
 
-  const exportData = () => {
+  const exportData = useCallback(() => {
     Alert.flash("Download Excel File", "info", "Perform this action").then(
       (result) => {
         if (result.isConfirmed) {
@@ -74,36 +80,37 @@ const StormDataTable = ({
         }
       }
     );
-  };
+  }, [data, dataManager]);
 
-  const generateButtons = (bttns = [], raw) => {
-    return (
+  const generateButtons = useCallback(
+    (bttns = [], raw) => (
       <div className="flex column gap-sm">
         {bttns.map((bttn, i) => (
           <TableButton key={i} raw={raw} bttn={bttn} actions={actions} />
         ))}
       </div>
-    );
+    ),
+    [actions]
+  );
+
+  const handleSearch = useMemo(
+    () =>
+      _.debounce((value) => {
+        setSearchTerm(value);
+        setPage(1);
+      }, 300),
+    []
+  );
+
+  const handleFilterChange = (column, value) => {
+    setFilters((prevFilters) => ({ ...prevFilters, [column]: value }));
+    setPage(1);
   };
 
   useEffect(() => {
     const updatedData = dataManager.paginate(page, filters, searchTerm);
     setTableData(updatedData);
-  }, [page, pageSize, filters, searchTerm, data]);
-
-  const handleSearch = (e) => {
-    setSearchTerm(e.target.value);
-    setPage(1); // Reset to the first page on search
-  };
-
-  const handlePageChange = (newPage) => {
-    setPage(newPage);
-  };
-
-  const handleFilterChange = (column, value) => {
-    setFilters((prevFilters) => ({ ...prevFilters, [column]: value }));
-    setPage(1); // Reset to the first page on filter change
-  };
+  }, [page, filters, searchTerm, dataManager]);
 
   return (
     <div className="storm-table-container">
@@ -112,25 +119,27 @@ const StormDataTable = ({
           <TextInput
             placeholder="Search"
             value={searchTerm}
-            onChange={handleSearch}
+            onChange={(e) => handleSearch(e.target.value)}
             size="md"
           />
         </div>
-        <div className="button-section" style={{ marginBottom: 15 }}>
-          <Button
-            label="Export to Excel"
-            icon="download-outline"
-            variant="success"
-            handleClick={() => exportData()}
-            isDisabled={data?.length < 1}
-          />
-        </div>
+        {exportable && (
+          <div className="button-section" style={{ marginBottom: 15 }}>
+            <Button
+              label="Export to Excel"
+              icon="download-outline"
+              variant="success"
+              handleClick={exportData}
+              isDisabled={data.length < 1}
+            />
+          </div>
+        )}
       </div>
       <table className="storm-data-table">
         <thead>
           <tr>
-            {columns.map((col) => (
-              <th key={col.accessor}>
+            {columns.map((col, i) => (
+              <th key={i}>
                 <span>{col.label}</span>
                 <TextInput
                   placeholder={`Filter ${col.label}`}
@@ -150,7 +159,7 @@ const StormDataTable = ({
                 {columns.map((col) => (
                   <td key={col.accessor}>{row[col.accessor]}</td>
                 ))}
-                {actions !== undefined && (
+                {actions && buttons.length > 0 && (
                   <td style={{ maxWidth: "10%", width: "10%" }}>
                     {generateButtons(buttons, row)}
                   </td>
@@ -168,10 +177,18 @@ const StormDataTable = ({
         totalRecords={data.length}
         pageSize={pageSize}
         currentPage={page}
-        onPageChange={handlePageChange}
+        onPageChange={setPage}
       />
     </div>
   );
 };
+
+// StormDataTable.defaultProps = {
+//   data: [],
+//   columns: [],
+//   buttons: [],
+//   actions: undefined,
+//   exportable: false,
+// };
 
 export default StormDataTable;

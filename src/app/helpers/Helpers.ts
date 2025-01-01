@@ -178,6 +178,8 @@ export const formatMembersUploadFile = (
 ): MemberServerResponse => {
   let formatted: MemberExportServerData[] = [];
 
+  console.log(members);
+
   members.forEach((member) => {
     // Get the name column
     const name = member.name;
