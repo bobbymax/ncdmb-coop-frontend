@@ -217,7 +217,11 @@ const ManageLoan = ({
                 variant="success"
                 type="submit"
                 icon="send"
-                isDisabled={state.loan_type_id < 1 || state.tenor < 1}
+                isDisabled={
+                  state.loan_type_id < 1 ||
+                  state.tenor < 1 ||
+                  guarantors.length < 3
+                }
               />
               {isUpdating && (
                 <Button

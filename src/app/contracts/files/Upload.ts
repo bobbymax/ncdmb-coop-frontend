@@ -1,7 +1,7 @@
 import * as XLSX from "xlsx";
 
 export interface Header {
-  accessor: string;
+  accessor: string
   label: string;
 }
 
