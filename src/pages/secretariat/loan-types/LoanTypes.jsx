@@ -24,6 +24,8 @@ const LoanTypes = () => {
 
   const [activities, setActivities] = useState([]);
 
+  console.log(activities);
+
   const fetchDependencies = async () => {
     const { activities } = await LoanTypeController.init().getDependencies();
     setActivities(optionDataFormat(activities, "id", "name"));

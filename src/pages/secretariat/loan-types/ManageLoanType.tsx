@@ -6,6 +6,7 @@ import { useResourceActions } from "../../../app/hooks/useResourceActions";
 import LoanTypeController from "../../../app/controllers/LoanTypeController";
 import TextInput from "../../../components/forms/TextInput";
 import Button from "../../../components/forms/Button";
+import MultiSelect from "../../../components/forms/MultiSelect";
 
 interface LoanTypeModalProps extends ModalTypeProps {
   data?: LoanTypeData;
@@ -23,6 +24,7 @@ const ManageLoanType = ({
   activities = [],
 }: LoanTypeModalProps) => {
   const [state, setState] = useState(LoanTypeModel.getState());
+  const [activity, setActivity] = useState<Option | null>(null);
 
   const { handleSubmit, handleDestroy } = useResourceActions<LoanTypeData>({
     controller: LoanTypeController.init(),
@@ -77,18 +79,30 @@ const ManageLoanType = ({
     });
   };
 
+  useEffect(() => {
+    if (activity !== null) {
+      setState((prev) => ({
+        ...prev,
+        activity_id:
+          typeof activity.value === "number"
+            ? activity.value
+            : parseInt(activity.value, 10),
+      }));
+    }
+  }, [activity]);
+
   return (
     <Modal title={title} show={show} close={handleClose} lg={lg}>
       <form onSubmit={onFormSubmit}>
         <div className="row">
-          <div className="col-md-12">
-            <SelectInput
+          <div className="col-md-12 mb-4">
+            <MultiSelect
               label="Activity"
-              value={state.activity_id}
-              onChange={(e) => setState({ ...state, activity_id: Number(e) })}
-              name="activity"
+              value={activity}
+              onChange={setActivity}
               options={activities}
-              placeholder="Select Activity"
+              placeholder="Beneficiary"
+              isSearchable
             />
           </div>
           <div className="col-md-12">
