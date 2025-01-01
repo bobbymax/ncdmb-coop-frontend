@@ -8,6 +8,7 @@ import { useResourceActions } from "../../../app/hooks/useResourceActions";
 import InterestRateController from "../../../app/controllers/InterestRateController";
 import TextInput from "../../../components/forms/TextInput";
 import Button from "../../../components/forms/Button";
+import MultiSelect from "../../../components/forms/MultiSelect";
 
 interface InterestRateModalProps extends ModalTypeProps {
   data?: InterestRateData;
@@ -25,6 +26,7 @@ const ManageInterestRates = ({
   loanTypes = [],
 }: InterestRateModalProps) => {
   const [state, setState] = useState(InterestRateModel.getState());
+  const [loanType, setLoanType] = useState<Option | null>(null);
 
   const { handleSubmit, handleDestroy } = useResourceActions<InterestRateData>({
     controller: InterestRateController.init(),
@@ -68,6 +70,18 @@ const ManageInterestRates = ({
   };
 
   useEffect(() => {
+    if (loanType !== null) {
+      setState((prev) => ({
+        ...prev,
+        loan_type_id:
+          typeof loanType.value === "number"
+            ? loanType.value
+            : parseInt(loanType.value, 10),
+      }));
+    }
+  }, [loanType]);
+
+  useEffect(() => {
     if (data) {
       setState(InterestRateModel.fromJson(data));
     }
@@ -78,13 +92,13 @@ const ManageInterestRates = ({
       <form onSubmit={onFormSubmit}>
         <div className="row">
           <div className="col-md-12">
-            <SelectInput
+            <MultiSelect
               label="Loan Type"
-              value={state.loan_type_id}
-              onChange={(e) => setState({ ...state, loan_type_id: Number(e) })}
-              name="loan-types"
+              value={loanType}
+              onChange={setLoanType}
               options={loanTypes}
-              placeholder="Select Loan Type"
+              placeholder="Loan Type"
+              isSearchable
             />
           </div>
           <div className="col-md-4">
