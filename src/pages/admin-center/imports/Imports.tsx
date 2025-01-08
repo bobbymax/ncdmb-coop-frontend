@@ -18,7 +18,7 @@ interface ImportData {
     | "groups"
     | "expenditures"
     | "plans"
-    | "alter-members"
+    | "update-members-record"
     | "upload-modules";
 }
 
@@ -58,6 +58,8 @@ const Imports = () => {
     try {
       const response = await http.store(getUrl(state.resource), body);
 
+      console.log(response);
+
       if (response) {
         toast.success(response.message);
         setCollection([]);
@@ -92,7 +94,7 @@ const Imports = () => {
         | "groups"
         | "expenditures"
         | "plans"
-        | "alter-members"
+        | "update-members-record"
         | "upload-modules",
     });
   };
@@ -107,24 +109,24 @@ const Imports = () => {
     try {
       const result = await Upload.excel(files[0]);
 
+      console.log(result);
+
       if (result) {
         let heads;
         let rows;
         const { headers, data } = result;
 
-        // if (state.resource === "members") {
-        //   const json = formatMembersUploadFile(data);
-        //   heads = json.data;
-        //   rows = json.data;
-        // } else {
-        //   heads = headers;
-        //   rows = data;
-        // }
+        if (state.resource === "members") {
+          const json = formatMembersUploadFile(data);
+          heads = json.data;
+          rows = json.data;
+        } else {
+          heads = headers;
+          rows = data;
+        }
 
-        console.log(data);
-
-        setColumns(headers as Header[]);
-        setCollection(data);
+        setColumns(heads as Header[]);
+        setCollection(rows);
       } else {
         console.error("No result returned from the upload");
       }
