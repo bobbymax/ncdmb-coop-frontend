@@ -12,12 +12,24 @@ import Textarea from "../../../components/forms/Textarea";
 import Button from "../../../components/forms/Button";
 import { InterestRateData } from "../../../app/models/InterestRateModel";
 import MultiSelect from "../../../components/forms/MultiSelect";
+import { useStateContext } from "../../../app/providers/ContentProvider";
+import Alert from "../../../app/helpers/Alert";
 
 interface LoanModalProps extends ModalTypeProps {
   data?: LoanData;
   loanTypes?: LoanTypeData[];
   members?: Option[];
   authId: number;
+}
+
+interface AuthDetails {
+  id: number;
+  membership_no: string;
+  email: string;
+  wallet: {
+    available_balance: string;
+    contribution: string;
+  };
 }
 
 const ManageLoan = ({
@@ -38,6 +50,8 @@ const ManageLoan = ({
   const [interestRates, setInterestRates] = useState<
     InterestRateData[] | undefined
   >([]);
+
+  const { auth } = useStateContext() as { auth: AuthDetails };
 
   const { handleSubmit, handleDestroy } = useResourceActions<LoanData>({
     controller: LoanController.init(),
@@ -105,6 +119,23 @@ const ManageLoan = ({
       );
     }
   }, [state.loan_type_id]);
+
+  useEffect(() => {
+    if (state.amount !== "") {
+      const savings = parseFloat(auth.wallet.available_balance);
+      const amount = parseFloat(state.amount);
+
+      if (amount > savings * 2) {
+        Alert.error(
+          `You are only eligible to apply for twice your total savings`
+        );
+        setState({
+          ...state,
+          amount: "",
+        });
+      }
+    }
+  }, [state.amount, auth.wallet.available_balance]);
 
   useEffect(() => {
     if (
