@@ -34,7 +34,7 @@ const Dashboard = () => {
                       ></ion-icon>
                       <div className="flex column">
                         <h2>{currency(auth?.total_exposure ?? 0)}</h2>
-                        <p>Total Exposure</p>
+                        <p>Total Exposure as January 2025</p>
                       </div>
                     </div>
 
@@ -45,7 +45,7 @@ const Dashboard = () => {
                       ></ion-icon>
                       <div className="flex column">
                         <h2>{currency(auth?.total_contribution)}</h2>
-                        <p>Available Balance</p>
+                        <p>Total Savings as December 31st, 2024</p>
                       </div>
                     </div>
 
@@ -56,7 +56,7 @@ const Dashboard = () => {
                       ></ion-icon>
                       <div className="flex column">
                         <h2>{currency(auth?.wallet?.contribution)}</h2>
-                        <p>Current Contribution</p>
+                        <p>Current Contribution as December 31st, 2024</p>
                       </div>
                     </div>
 
