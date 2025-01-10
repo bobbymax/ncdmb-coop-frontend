@@ -263,6 +263,23 @@ p {
   width: 100vw;
 }
 
+.account__details__section {
+  h3 {
+    text-transform: uppercase;
+    font-size: 18px;
+    color: #8d8d8d;
+    margin-bottom: 12px;
+    letter-spacing: 2px;
+  }
+  .account__details {
+    h4 {
+      font-size: 14px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+  }
+}
+
 /* Navigation Styling */
 #storm-nav {
   border-bottom: 1px solid var(--color-body-text-variant);

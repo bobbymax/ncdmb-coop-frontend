@@ -45,6 +45,8 @@ const ManageLoanRequest = ({
       remarks: state.remarks,
       status: state.status,
       start_repayment_date: state.start_repayment_date,
+      amount: state.amount,
+      approved_amount: state.amount,
     };
 
     // Call the handleSubmit method from the hook
@@ -91,6 +93,20 @@ const ManageLoanRequest = ({
               name="decision"
               options={LoanRequestModel.getActions()}
               placeholder="Make Decision"
+            />
+          </div>
+
+          <div className="col-md-12">
+            <TextInput
+              label="Approved Loan Amount"
+              value={state.amount}
+              onChange={(e) =>
+                setState({
+                  ...state,
+                  amount: e.target.value,
+                })
+              }
+              name="amount"
             />
           </div>
 

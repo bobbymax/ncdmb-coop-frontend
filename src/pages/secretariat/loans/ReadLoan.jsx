@@ -25,6 +25,7 @@ const ReadLoan = () => {
   const [guarantors, setGuarantors] = useState([]);
   const [url, setUrl] = useState("");
   const [state, setState] = useState(LoanOfferModel.getState());
+  const [account, setAccount] = useState(null);
   const navigate = useNavigate();
   const { pathname } = useLocation();
 
@@ -82,7 +83,8 @@ const ReadLoan = () => {
       _.has(auth, "name") &&
       _.has(raw, "max_requestable_amount") &&
       _.has(raw, "guarantors") &&
-      _.has(raw, "start_repayment_date")
+      _.has(raw, "start_repayment_date") &&
+      _.has(raw, "account")
     ) {
       const {
         interest_rate,
@@ -94,9 +96,12 @@ const ReadLoan = () => {
         max_requestable_amount,
         guarantors,
         start_repayment_date,
+        account,
       } = raw;
 
       const { wallet, name } = auth;
+
+      setAccount(account);
 
       const data = {
         interestRate: parseFloat(interest_rate?.rate),
@@ -119,6 +124,8 @@ const ReadLoan = () => {
       setUrl(pathname.split("/")[1]);
     }
   }, [raw, auth, pathname]);
+
+  console.log(account);
 
   return (
     <>
@@ -160,7 +167,11 @@ const ReadLoan = () => {
 
           <div className="col-md-6 mb-3">
             <h4 className="line date mb-3">Proposed Repayment Start Date</h4>
-            <h2>{moment(raw?.start_repayment_date).format("LL")}</h2>
+            {raw?.status !== "pending" && raw?.status !== "registered" ? (
+              <h2>{moment(raw?.start_repayment_date).format("LL")}</h2>
+            ) : (
+              <h4 className="text-danger">Repayment Date has not been set</h4>
+            )}
           </div>
 
           <div className="col-md-6 mb-4">
@@ -195,7 +206,7 @@ const ReadLoan = () => {
               </div>
               <div className="col-md-3">
                 <div className="branch">
-                  <h5 className="line">Deduction</h5>
+                  <h5 className="line">Initial Deduction</h5>
                   <h3>{currency(response?.deductable_amount)}</h3>
                 </div>
               </div>
@@ -214,8 +225,26 @@ const ReadLoan = () => {
             </div>
           </div>
 
+          <div className="col-md-12 mb-3">
+            {raw?.status !== "pending" && raw?.status !== "registered" ? (
+              <StormDataTable data={repayments} columns={columns} />
+            ) : (
+              <h5 className="mt-4 text-danger text-center">
+                Once your loan is approved the repayment schedule will appear
+                here!!
+              </h5>
+            )}
+          </div>
+
           <div className="col-md-12">
-            <StormDataTable data={repayments} columns={columns} />
+            <div className="account__details__section">
+              <h3>Loan Amount Paid to:</h3>
+              <div className="account__details">
+                <h4>Account Name: {raw?.member}</h4>
+                <h4>Account Number: {account?.account_number}</h4>
+                <h4>Bank: {account?.bank_name}</h4>
+              </div>
+            </div>
           </div>
         </Container>
       </div>

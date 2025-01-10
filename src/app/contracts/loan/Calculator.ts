@@ -95,7 +95,7 @@ export default abstract class Calculator {
   };
 
   protected totalPayableAmount = (): number => {
-    return this.requestable() + this.getInterestRateAmount();
+    return this.requestable();
   };
 
   protected requestable = (): number => {

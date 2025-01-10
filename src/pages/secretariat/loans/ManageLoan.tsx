@@ -6,7 +6,7 @@ import { FormEvent, useEffect, useState } from "react";
 import { useResourceActions } from "../../../app/hooks/useResourceActions";
 import LoanController from "../../../app/controllers/LoanController";
 import { LoanTypeData } from "../../../app/models/LoanTypeModel";
-import { optionDataFormat } from "../../../app/helpers/Helpers";
+import { currency, optionDataFormat } from "../../../app/helpers/Helpers";
 import TextInput from "../../../components/forms/TextInput";
 import Textarea from "../../../components/forms/Textarea";
 import Button from "../../../components/forms/Button";
@@ -30,6 +30,7 @@ interface AuthDetails {
     available_balance: string;
     contribution: string;
   };
+  total_exposure: string;
 }
 
 const ManageLoan = ({
@@ -52,6 +53,8 @@ const ManageLoan = ({
   >([]);
 
   const { auth } = useStateContext() as { auth: AuthDetails };
+
+  console.log(auth);
 
   const { handleSubmit, handleDestroy } = useResourceActions<LoanData>({
     controller: LoanController.init(),
@@ -124,18 +127,31 @@ const ManageLoan = ({
     if (state.amount !== "") {
       const savings = parseFloat(auth.wallet.available_balance);
       const amount = parseFloat(state.amount);
+      const exposure = parseFloat(auth.total_exposure);
 
-      if (amount > savings * 2) {
-        Alert.error(
-          `You are only eligible to apply for twice your total savings`
-        );
+      const accessible = savings * 2;
+      const totalAccessbile = accessible - exposure;
+
+      const message =
+        exposure > 0
+          ? `You currently have an exposure of ${currency(
+              exposure
+            )}, so the total accessible fund for you is ${currency(
+              totalAccessbile
+            )}`
+          : `You are only eligible to apply for twice your total savings: Amount accessible - ${currency(
+              totalAccessbile
+            )}`;
+
+      if (amount > totalAccessbile) {
+        Alert.error("Not Allowed!!", message);
         setState({
           ...state,
           amount: "",
         });
       }
     }
-  }, [state.amount, auth.wallet.available_balance]);
+  }, [state.amount, auth.wallet.available_balance, auth.total_exposure]);
 
   useEffect(() => {
     if (
