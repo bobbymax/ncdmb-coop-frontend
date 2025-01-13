@@ -112,21 +112,21 @@ const Imports = () => {
       console.log(result);
 
       if (result) {
-        let heads;
-        let rows;
+        // let heads;
+        // let rows;
         const { headers, data } = result;
 
-        if (state.resource === "members") {
-          const json = formatMembersUploadFile(data);
-          heads = json.data;
-          rows = json.data;
-        } else {
-          heads = headers;
-          rows = data;
-        }
+        // if (state.resource === "members") {
+        //   const json = formatMembersUploadFile(data);
+        //   heads = json.data;
+        //   rows = json.data;
+        // } else {
+        //   heads = headers;
+        //   rows = data;
+        // }
 
-        setColumns(heads as Header[]);
-        setCollection(rows);
+        setColumns(headers as Header[]);
+        setCollection(data);
       } else {
         console.error("No result returned from the upload");
       }
